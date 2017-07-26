@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+  <p:panel header="Cadastrar a Agenda">
+    <h:form id="form2">
+      <p:panelGrid columns="2">
+        
+          <h:outputText value="Valor"/>
+          <p:inputText value="#{mb.agenda.valor}">
+             <f:convertNumber pattern="00,00" />
+          </p:inputText>  
+      
+          <h:outputText value="Vencimento"/>
+          <p:calendar value="#{mb.agenda.vencimento}" pattern="dd/MM/yyyy"></p:calendar>
+      
+          <h:outputText value="Pagamento"/>
+          <p:calendar value="#{mb.agenda.pagamento}" pattern="dd/MM/yyyy"></p:calendar>
+      
+          <h:outputText value="Descrição"/>
+          <p:editor value="#{mb.agenda.descricao}"></p:editor>
+      
+          <p:commandButton value="Gravar" action="#{mb.cadastrar}" update=":form2, :form3" ajax="false"></p:commandButton>
+      
+      </p:panelGrid>
+    </h:form>
+  </p:panel>
+  <p:messages></p:messages>
+  <p:growl></p:growl>
+  <p:separator></p:separator>
+  <p:panel header="Consulta">
+   <h:form id="form3">
+    <p:dataTable id="tbl1" value="#{mb.listaAgenda}" var="agenda"  
+                    paginator="true"
+                    rows="3"
+                    rowsPerPageTemplate="3,5"
+                    emptyMessage="Nehum Item da Agenda Cadastrado">
+       
+       <p:column headerText="Id da agenda">
+         <h:outputText value="#{agenda.idAgenda}"/>
+       </p:column>
+        <p:column headerText="Valor">
+         <h:outputText value="#{agenda.valor}"/>
+       </p:column>
+       <p:column headerText="Vencimento" pattern="dd/MM/yyyy">
+         <h:outputText value="#{agenda.vencimento}">
+             <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+         </h:outputText>
+       </p:column>
+       <p:column headerText="Pagamento">
+         <h:outputText value="#{agenda.pagamento}">
+             <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+         </h:outputText>
+       </p:column>
+       <p:column headerText="Descrição">
+         <h:outputText value="#{agenda.descricao}"/>
+       </p:column>
+       <p:column headerText="Excluir">
+          <p:commandButton value="Excluir" update=":form2" action="#{mb.excluir}" ajax="false"></p:commandButton>
+       </p:column>
+       <p:column headerText="Alterar">
+          <p:commandButton value="Alterar" update=":form4" action="#{mb.alterar1}" onclick="PF('janela1').show()"/>
+       </p:column>
+    </p:dataTable>
+    <h:panelGrid columns="2">
+       
+           <h:commandLink>
+              <p:graphicImage value="/img/pdf.png" width="100px" height="100px">
+              </p:graphicImage>
+              <p:dataExporter type="pdf" target="tbl1" fileName="relatorio">
+              </p:dataExporter>
+            </h:commandLink>
+       
+    </h:panelGrid>
+   </h:form>
+  </p:panel>
+  <p:dialog widgetVar="janela1" modal="true" header="Atualizar a Agenda">
+    <h:form id="form4">
+       <h:panelGrid columns="2">
+           
+          <h:outputText value="IdAgenda"/>
+          <p:inputText value="#{mb.agendaAltera.idAgenda}" readonly="true"/>
+           
+          <h:outputText value="Valor"/>
+          <p:inputText value="#{mb.agendaAltera.valor}">
+             <f:convertNumber pattern="00,00" />
+          </p:inputText>  
+      
+          <h:outputText value="Vencimento"/>
+          <p:calendar value="#{mb.agendaAltera.vencimento}" pattern="dd/MM/yyyy"></p:calendar>
+      
+          <h:outputText value="Pagamento"/>
+          <p:calendar value="#{mb.agendaAltera.pagamento}" pattern="dd/MM/yyyy"></p:calendar>
+      
+          <h:outputText value="Descrição"/>
+          <p:editor value="#{mb.agendaAltera.descricao}"></p:editor>
+      
+          <p:commandButton value="Atualizar" ajax="true" action="#{mb.alterar2}" update=":form4, :form3" oncomplete="PF('janela1').hide()"/>
+           
+       </h:panelGrid>
+    </h:form>
+  </p:dialog>
+</h:body>
+
+</html>
