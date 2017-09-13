@@ -1,0 +1,16 @@
+{
+  "name": "projeto seleção empresa",
+  "scripts": {
+    "postdeploy": "projetoSelecaoEmpresa"
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
